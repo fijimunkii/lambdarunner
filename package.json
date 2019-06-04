@@ -1,0 +1,30 @@
+{
+  "name": "lambdarunner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fijimunkii/lambdarunner.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fijimunkii/lambdarunner/issues"
+  },
+  "homepage": "https://github.com/fijimunkii/lambdarunner#readme",
+  "dependencies": {
+    "aws-sdk": "^2.467.0",
+    "bluebird": "^3.5.4",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "hpp": "^0.2.2",
+    "lockfile": "^1.0.4",
+    "mkdirp": "^0.5.1",
+    "nconf": "^0.10.0",
+    "unzipper": "^0.10.0"
+  }
+}
