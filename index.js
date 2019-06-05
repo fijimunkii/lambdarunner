@@ -8,7 +8,11 @@ let app = express();
 app.use(require('body-parser').json());
 app.use(require('hpp')());
 
-app.use('/', require('./lambdarunner'));
+if (env.get('ORCHESTRATOR')) {
+  app.use('/', require('./orchestrator'));
+} else {
+  app.use('/', require('./lambdarunner'));
+}
 
 const port = env.get('PORT')||5555;
 app.listen(port, () => console.log(`Listening at http://localhost:${port}`));
