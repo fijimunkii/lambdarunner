@@ -1,3 +1,7 @@
+# lambdarunner
+
+Run aws lambda functions on autoscaling ec2 instances
+
 ```
 docker run -d -p 5555:5555 -v $(mktemp -d):/data fijimunkii/lambdarunner
 
