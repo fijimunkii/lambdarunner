@@ -1,5 +1,5 @@
 const handleError = require('./lib/handle-error');
-const fetchIps = require('./lib/fetch-ips');
+const cycleInstances = require('./lib/instances').cycle;
 
 module.exports = (req, res) =>  {
   return orchestrator(req,res)
@@ -7,12 +7,10 @@ module.exports = (req, res) =>  {
 };
 
 async function orchestrator(req, res) {
-  // get list of weighted IPs
-  const ips = await fetchIps();
+  // get ip address
+  const ip = await cycleInstances();
 
-  // use first IP
-  // TODO: chained failover (how to do this with http redirect?)
-  const ip = ips[0];
+  // TODO: chained failover
 
   // Layer 7 Content Switching aka URL rewriting
   // relay req to IP (include all input data??)
