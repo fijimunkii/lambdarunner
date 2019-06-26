@@ -12,7 +12,7 @@ app.use(require('hpp')());
 
 if (env.get('ORCHESTRATOR')) {
   app.use('/', require('./orchestrator'));
-  app.use('/instance-add', receiveData);
+  app.use('/instance-data', receiveData);
   app.use('/instance-problem', problemData);
   app.use('/instance-list', listData);
 } else {

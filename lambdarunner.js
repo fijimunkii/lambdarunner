@@ -32,4 +32,14 @@ async function lambdarunner(req, res) {
     'Content-Type': 'text/plain'
   });
   res.end(output);
+
+  // send complete event
+  const data = querystring.stringify({ complete: true /* TODO inclue ref */ });
+  await new Promise((resolve,reject) => {
+    http.get(`http://${orchestratorIp}/instance-data?${data}`, res => {
+      res.on('end', resolve);
+    })
+    .on('error', reject);
+  });
+
 };
