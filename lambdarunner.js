@@ -1,6 +1,10 @@
 const handleError = require('./lib/handle-error');
 const loadLambda = require('./lib/load-lambda');
+const env = require('./lib/env');
+const orchestratorIp = env.get('ORCHESTRATOR_IP');
 const promisify = require('util').promisify;
+const querystring = require('querystring');
+const http = require('http');
 
 module.exports = (req, res) => {
   return lambdarunner(req,res)
@@ -12,8 +16,10 @@ async function lambdarunner(req, res) {
   const input = {};
   ['functionName','qualifier','config','context'].forEach(d => {
     input[d] = (req.query&&req.query[d]) || (req.body&&req.body[d]);
-    if (!input[d])
+    if (!input[d]) {
+      console.log(req.originalUrl);
       throw `Missing required parameter: ${d}`;
+    }
   });
   ['config','context'].forEach(d => {
     if (typeof input[d] === 'string') {
@@ -26,7 +32,10 @@ async function lambdarunner(req, res) {
   // run lambda
   const lambdaDir = await loadLambda(input.functionName, input.qualifier);
   const lambdaFn = promisify(require(lambdaDir).handler);
-  const output = JSON.stringify(await lambdaFn(input.config, input.context));
+  let output = await lambdaFn(input.config, input.context);
+  if (typeof output === 'object') {
+    output = JSON.stringify(output);
+  }
   res.writeHead(200, {
     'Content-Length': Buffer.byteLength(output),
     'Content-Type': 'text/plain'
